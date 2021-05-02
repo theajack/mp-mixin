@@ -1,15 +1,15 @@
 {
-    "name": "tc-event",
+    "name": "mp-mixin",
     "version": "0.0.1",
     "description": "Powerful, easy-to-use event mechanism",
-    "main": "tc-event.min.js",
+    "main": "mp-mixin.min.js",
     "scripts": {},
-    "unpkg": "tc-event.min.js",
-    "jsdelivr": "tc-event.min.js",
-    "typings": "tc-event.min.d.ts",
+    "unpkg": "mp-mixin.min.js",
+    "jsdelivr": "mp-mixin.min.js",
+    "typings": "mp-mixin.min.d.ts",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/theajack/tc-event.git"
+        "url": "git+https://github.com/theajack/mp-mixin.git"
     },
     "keywords": [
         "事件机制",
@@ -19,8 +19,8 @@
     "author": "theajack",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/theajack/tc-event/issues"
+        "url": "https://github.com/theajack/mp-mixin/issues"
     },
-    "homepage": "https://theajack.gitee.io/tc-event/",
+    "homepage": "https://theajack.gitee.io/mp-mixin/",
     "dependencies": {}
 }
