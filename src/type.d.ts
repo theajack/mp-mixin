@@ -2,15 +2,18 @@
  * @Author: tackchen
  * @Date: 2021-05-02 11:11:35
  * @LastEditors: tackchen
- * @LastEditTime: 2021-05-02 14:37:06
+ * @LastEditTime: 2021-05-02 14:47:31
  * @FilePath: \mp-mixin\src\type.d.ts
  * @Description: Coding something
  */
+
 export interface IStore {
     state: IJson;
-    __id: number;
-    __injectContext (currentContext: IContext): void;
-    __hitState (setDataAttr: string, value: any): boolean;
+    __: {
+        _id: number;
+        _injectContext (currentContext: IContext): void;
+        _hitState (setDataAttr: string, value: any, ignoreList: string[]): boolean;
+    }
 }
 
 export interface IEventReady<T> {

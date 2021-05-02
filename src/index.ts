@@ -2,7 +2,7 @@
  * @Author: tackchen
  * @Date: 2021-05-01 18:27:03
  * @LastEditors: tackchen
- * @LastEditTime: 2021-05-02 14:22:15
+ * @LastEditTime: 2021-05-02 14:47:45
  * @FilePath: \mp-mixin\src\index.ts
  * @Description: Coding something
  */
@@ -16,6 +16,7 @@ function hackPageBuilder () {
     const nativePage = Page;
     Page = function (options: IPageOption) {
         if (!options.data) { options.data = {}; }
+        if (!options.__mixin) {options.__mixin = {};}
     
         options = _mixinGlobalObject(options);
     

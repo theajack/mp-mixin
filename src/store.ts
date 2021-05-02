@@ -2,7 +2,7 @@
  * @Author: tackchen
  * @Date: 2021-05-01 20:29:47
  * @LastEditors: tackchen
- * @LastEditTime: 2021-05-02 12:15:49
+ * @LastEditTime: 2021-05-02 14:55:50
  * @FilePath: \mp-mixin\src\store.ts
  * @Description: Coding something
  */
@@ -43,43 +43,49 @@ export function _createStore (state: IJson): IStore {
     };
 
     return {
-        __id: currentId,
         state,
-        __injectContext (currentContext: IContext) {
-            const initedFlag = `__storeInited_${currentId}`;
-            if (currentContext[initedFlag]) {
-                return;
+        __: {
+            _id: currentId,
+            _injectContext (currentContext: IContext) {
+                const mixin = currentContext.__mixin;
+                if (mixin._store[currentId].inited) {
+                    return;
+                }
+                mixin._context = currentContext;
+                mixin._store[currentId].inited = true;
+                hackSetData(currentContext, currentId);
+                onEventReady((data) => {
+                    mixin._nativeSetData.call(currentContext, data);
+                });
+            },
+            _hitState (setDataAttr: string, value: any, ignoreList: string[]) {
+                const attrs = getAttrs(setDataAttr);
+                const modifyAttr = attrs[0];
+                if (typeof state[modifyAttr] === 'undefined' || ignoreList.includes(modifyAttr)) {
+                    return false;
+                }
+                modifyState(attrs, value, setDataAttr);
+                return true;
             }
-            currentContext[initedFlag] = true;
-            hackSetData(currentContext, this);
-            onEventReady((data) => {
-                currentContext.__nativeSetData(data);
-            });
-        },
-        __hitState (setDataAttr: string, value: any) {
-            const attrs = getAttrs(setDataAttr);
-            if (typeof state[attrs[0]] === 'undefined') {
-                return false;
-            }
-            modifyState(attrs, value, setDataAttr);
-            return true;
         }
     };
 }
 
-function hackSetData (context: IContext, store: IStore) {
+function hackSetData (context: IContext, storeId: number) {
     const nativeSetData = context.setData;
-    if (!context.__setDataList) {
-        context.__setDataList = [];
-        context.__nativeSetData = nativeSetData;
+    const mixin = context.__mixin;
+    if (!mixin._setDataList) {
+        mixin._setDataList = [];
+        mixin._nativeSetData = nativeSetData;
         context.setData = (data, callback) => {
-            context.__setDataList.forEach((fn: Function) => fn(data));
+            mixin._setDataList.forEach((fn: Function) => fn(data));
             return nativeSetData.call(context, data, callback);
         };
     }
-    context.__setDataList.push((data: IJson) => {
+    mixin._setDataList.push((data: IJson) => {
+        const {store, ignoreList} = mixin._store[storeId];
         for (const k in data) {
-            store.__hitState(k, data[k]);
+            store.__._hitState(k, data[k], ignoreList);
         }
     });
 }
@@ -90,35 +96,40 @@ function handleSetDataAttr (attr: string) {
 }
 
 export function initStoreHacker (options: IPageOption) {
-    handleStore(options, options.$globalStore);
-    handleStore(options, options.$store);
+    const stores = options.__mixin._store;
+    if (stores) {
+        for (const k in stores) {
+            handleStore(options, stores[k].store);
+        }
+    }
 }
 
 function handleStore (options: IPageOption, store: IStore) {
     if (!store) return;
     const setDataHacker = function (context: IContext) {
-        store.__injectContext(context);
+        store.__._injectContext(context);
     };
     if (!options.onLoad) { // 劫持onLoad来注入setData
         options.onLoad = setDataHacker;
     } else {
         const nativeOnLoad = options.onLoad;
-        if (!options.__onLoadList) {
-            options.__onLoadList = [];
+        const mixin = options.__mixin;
+        if (!mixin._onLoadList) {
+            mixin._onLoadList = [];
             options.onLoad = function (...args: any[]) {
-                options.__onLoadList.forEach((fn: Function) => fn(this));
+                mixin._onLoadList.forEach((fn: Function) => fn(this));
                 nativeOnLoad.apply(this, args);
             };
         }
   
-        options.__onLoadList.push(function (context: IContext) {
+        mixin._onLoadList.push(function (context: IContext) {
             setDataHacker(context);
         });
     }
 }
 
 export function _initGlobalStore (state: IJson | IStore) {
-    globalStore = ((!state.__id) ? _createStore(state) : state) as IStore;
+    globalStore = ((!state.__) ? _createStore(state) : state) as IStore;
     return globalStore;
 }
 
@@ -132,13 +143,15 @@ export function injectStore (
     mixinStore?: IStore | IJson<any>,
     global = false
 ) {
-    const store = (global) ? globalStore : (options.store || mixinStore);
+    const store = ((global) ? globalStore : (options.store || mixinStore)) as IStore;
     if (!store) return;
-
-    options[global ? '$globalStore' : '$store'] = store;
-
-    mapToTarget({
-        data: store.state,
-        target: options.data
-    });
+    const mixin = options.__mixin;
+    if (!mixin._store) {mixin._store = {};};
+    mixin._store[store.__._id] = {
+        store,
+        ignoreList: mapToTarget({
+            data: store.state,
+            target: options.data
+        })
+    };
 }

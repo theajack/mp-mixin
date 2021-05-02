@@ -15,7 +15,7 @@
     <a href="https://github.com/theajack/mp-mixin/blob/master/test/test-report.txt"><img src="https://img.shields.io/badge/test-passed-44BB44" alt="test"></a>
 </p>
 
-<h3>🚀 功能强大、简单易用的事件库</h3>
+<h3>🚀 微信小程序 mixin 和 store 方案</h3>
 
 **[English](https://github.com/theajack/mp-mixin/blob/master/README.md) | [更新日志](https://github.com/theajack/mp-mixin/blob/master/helper/version.md) | [反馈错误/缺漏](https://github.com/theajack/mp-mixin/issues/new) | [Gitee](https://gitee.com/theajack/mp-mixin)**
 
@@ -23,11 +23,11 @@
 
 ### 1. 特性
 
-1. typescript 编写
-2. 多端支持
-3. 自定义事件顺序、多种触发模式
-4. 全局拦截机制
-5. 体积小巧，简单易用
+1. 支持 mixin data、methods、生命周期及Page事件
+2. 支持不同Page 使用 store 共用状态
+3. 支持全局 mixin 和 store
+4. typescript编写
+5. 支持QQ小程序 以及其他api和微信小程序相似的小程序
 
 ### 2. 快速使用
 
@@ -38,30 +38,80 @@ npm i mp-mixin
 ```
 
 ```js
-import event from 'mp-mixin';
-
-event.regist('myEvent', (data) => {
-    console.log('emited!', data);
-})
-
-event.emit('myEvent', 'Aha!');
+import 'mp-mixin';
 ```
 
 #### 2.2 cdn
 
+[点击下载](https://cdn.jsdelivr.net/npm/mp-mixin/mp-mixin.min.js) cdn 文件，复制到您的小程序项目中，然后 import 这个文件就可以
 
-```html
-<script src="https://cdn.jsdelivr.net/npm/mp-mixin/mp-mixin.min.js"></script>
-<script>
-    TEvent.regist('myEvent', function (data) {
-        console.log('emited!', data);
-    })
+cdn地址: [https://cdn.jsdelivr.net/npm/mp-mixin/mp-mixin.min.js](https://cdn.jsdelivr.net/npm/mp-mixin/mp-mixin.min.js)
 
-    TEvent.emit('myEvent', 'Aha!');
-</script>
+#### 2.3 快速使用
+
+全局mixin, 推荐在 app.js 中引入
+
+```js
+import 'mp-mixin';
+wx.mixin({
+    data: {}, // 可选
+    methods: {}, // 可选
+    store: wx.createStore({}), // 可选 也可以是 {}
+    // 以下为Page生命周期或事件
+    onLoad(){
+
+    },
+    onShareAppMessage(){
+
+    }
+})
 ```
 
+Page mixin 
+
+```js
+Page({
+    mixin: {
+        data: {}, // 可选
+        methods: {}, // 可选
+        store: wx.createStore({}), // 可选 只能是 store对象 不能是json
+        // 以下为Page生命周期或事件
+        onLoad(){
+
+        },
+        onShareAppMessage(){
+
+        }
+    }
+    // ...
+})
+```
+
+局部mixin会覆盖全局mixin 
+
 ### 3 api
+
+
+引入 mp-mixin 之后，mp-mixin 会将一下三个 api 挂载到 wx 对象上
+
+```js
+wx.mixin
+wx.createStore
+wx.initGlobalStore
+```
+
+您可以通过 `injectStaff` 方法手动注入到任何对象上
+
+```js
+import {injectStaff} from 'mp-mixin'
+injectStaff(anyObject);
+```
+
+```js
+import {injectStaff} from 'mp-mixin'
+injectStaff(anyObject);
+```
+
 
 详情请参考 [index.d.ts](https://github.com/theajack/mp-mixin/blob/master/src/index.d.ts)
 

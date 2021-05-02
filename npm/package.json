@@ -1,6 +1,6 @@
 {
     "name": "tc-event",
-    "version": "0.0.6",
+    "version": "0.0.1",
     "description": "Powerful, easy-to-use event mechanism",
     "main": "tc-event.min.js",
     "scripts": {},
