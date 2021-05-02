@@ -1,0 +1,26 @@
+{
+    "name": "tc-event",
+    "version": "0.0.6",
+    "description": "Powerful, easy-to-use event mechanism",
+    "main": "tc-event.min.js",
+    "scripts": {},
+    "unpkg": "tc-event.min.js",
+    "jsdelivr": "tc-event.min.js",
+    "typings": "tc-event.min.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/theajack/tc-event.git"
+    },
+    "keywords": [
+        "事件机制",
+        "事件总线",
+        "event mechanism"
+    ],
+    "author": "theajack",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/theajack/tc-event/issues"
+    },
+    "homepage": "https://theajack.gitee.io/tc-event/",
+    "dependencies": {}
+}
