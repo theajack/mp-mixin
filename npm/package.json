@@ -1,7 +1,7 @@
 {
     "name": "mp-mixin",
-    "version": "0.0.1",
-    "description": "Powerful, easy-to-use event mechanism",
+    "version": "0.0.2",
+    "description": "微信小程序 mixin 和 store 方案",
     "main": "mp-mixin.min.js",
     "scripts": {},
     "unpkg": "mp-mixin.min.js",
@@ -12,9 +12,9 @@
         "url": "git+https://github.com/theajack/mp-mixin.git"
     },
     "keywords": [
-        "事件机制",
-        "事件总线",
-        "event mechanism"
+        "微信mixin",
+        "微信全局状态",
+        "微信共享状态"
     ],
     "author": "theajack",
     "license": "MIT",

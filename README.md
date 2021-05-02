@@ -28,50 +28,51 @@
     <a href="https://github.com/theajack/mp-mixin/blob/master/test/test-report.txt"><img src="https://img.shields.io/badge/test-passed-44BB44" alt="test"></a>
 </p>
 
-<h3>🚀 WeChat Mini Program mixin and store solution</h3>
+<h3>🚀 微信小程序 mixin 和 store 方案</h3>
 
-**[中文](https://github.com/theajack/mp-mixin/blob/master/README.cn.md) | [Update Log](https://github.com/theajack/mp-mixin/blob/master/helper/version.md) | [Feedback bug/missing](https://github.com/theajack/mp-mixin/issues/new) | [Gitee](https://gitee.com/theajack/mp-mixin)**
+**[English](https://github.com/theajack/mp-mixin/blob/master/README.en.md) | [更新日志](https://github.com/theajack/mp-mixin/blob/master/helper/version.md) | [反馈错误/缺漏](https://github.com/theajack/mp-mixin/issues/new) | [Gitee](https://gitee.com/theajack/mp-mixin)**
 
 ---
 
-## 1. Features
+## 1. 特性
 
-1. Support mixin data, methods, life cycle and Page events
-2. Support different pages to use store sharing status
-3. Support global mixin and store
-4. Typescript writing
-5. Support QQ applet and other applets with similar api and WeChat applet
+1. 支持 mixin data、methods、生命周期及Page事件
+2. 支持不同Page 使用 store 共用状态
+3. 支持全局 mixin 和 store
+4. typescript编写
+5. 支持QQ小程序 以及其他api和微信小程序相似的小程序
+6. 体积小巧，仅 1.83kb
 
-### 2. Quick use
+### 2. 快速使用
 
-#### 2.1 npm installation
+#### 2.1 npm 安装
 
 ```
 npm i mp-mixin
 ```
 
 ```js
-import'mp-mixin';
+import 'mp-mixin';
 ```
 
 ### 2.2 cdn
 
-[Click to download](https://cdn.jsdelivr.net/npm/mp-mixin/mp-mixin.min.js) cdn file, copy it to your mini program project, and then import this file.
+[点击下载](https://cdn.jsdelivr.net/npm/mp-mixin/mp-mixin.min.js) cdn 文件，复制到您的小程序项目中，然后 import 这个文件就可以
 
-cdn address: [https://cdn.jsdelivr.net/npm/mp-mixin/mp-mixin.min.js](https://cdn.jsdelivr.net/npm/mp-mixin/mp-mixin.min .js)
+cdn地址: [https://cdn.jsdelivr.net/npm/mp-mixin/mp-mixin.min.js](https://cdn.jsdelivr.net/npm/mp-mixin/mp-mixin.min.js)
 
-### 2.3 Quick use
+### 2.3 快速使用
 
-#### 2.3.1 mixin object
+#### 2.3.1 mixin 对象
 
-Mixin is an object, the data structure is as follows
+mixin 是一个对象，数据结构如下
 
 ```js
 const mixin = {
-    data: {}, // optional
-    methods: {}, // optional
-    store: wx.creteStore({}), // optional When injected globally, store can be a json, otherwise it must be a store object
-    // The following is the Page life cycle or event
+    data: {}, // 可选
+    methods: {}, // 可选
+    store: wx.creteStore({}), // 可选 当全局注入时，store可以是一个json， 否则 必须是 store对象
+    // 以下为Page生命周期或事件
     onLoad(){
 
     },
@@ -81,36 +82,36 @@ const mixin = {
 }
 ```
 
-#### 2.3.2 Global mixin
+#### 2.3.2 全局mixin
 
-Global mixin, recommended to be introduced in app.js
+全局mixin, 推荐在 app.js 中引入
 
 ```js
-import'mp-mixin';
-wx.mixin(mixin); // mixin object see 2.3.1
+import 'mp-mixin';
+wx.mixin(mixin); // mixin 对象 见 2.3.1
 ```
 
 #### 2.3.3 Page mixin
  
-You can also introduce mixin as needed in the Page structure
+也可以在Page构造中按需引入 mixin
 
 ```js
 Page({
-    mixin: mixin, // mixin object see 2.3.1
+    mixin: mixin, // mixin 对象 见 2.3.1
     // ...
 })
 ```
 
-Description
+说明
 
-* If there are the same key-value pairs, the priority is component> local mixin> global mixin
-* data priority is higher than store
-* The data in the mixin will be deep cloned and injected into the data in the corresponding Page, and the use of setData will not affect each other
-* The store in the mixin will also be injected into the data in the Page. The difference is that if different pages introduce the same one, the setData of one page will affect the state of other pages, and the UI will be updated
+* 如有相同的键值对，优先级为 组件 > 局部mixin > 全局mixin
+* data 优先级 高于 store
+* mixin 中的 data 会被深克隆分别注入对应的Page中的data，使用setData互不影响
+* mixin 中的 store也会被注入Page中的data，区别是如果不同Page引入的是同一个，则一个页面setData会影响其他页面的 状态，且UI会更新
 
 ### 3 api
 
-After the introduction of mp-mixin, mp-mixin will mount the following three apis to the wx object
+引入 mp-mixin 之后，mp-mixin 会将一下三个 api 挂载到 wx 对象上
 
 ```js
 wx.mixin
@@ -118,7 +119,7 @@ wx.createStore
 wx.initGlobalStore
 ```
 
-`wx.initGlobalStore` is equivalent to adding the store attribute to the `wx.mixin` method
+`wx.initGlobalStore` 等价于在 `wx.mixin` 方法中加入 store属性
 
 ```js
 wx.initGlobalStore({
@@ -132,22 +133,22 @@ wx.mixin({
 })
 ```
 
-You can also actively introduce to use the above three APIs
+您也可以主动引入来使用上述三个API
 
 ```js
-import {globalMixin, createStore, initGlobalStore} from'mp-mixin'
+import {globalMixin, createStore, initGlobalStore} from 'mp-mixin'
 // ...
 ```
 
 
-You can manually inject into any object through the `injectStaff` method
+您可以通过 `injectStaff` 方法手动注入到任何对象上
 
 ```js
-import {injectStaff} from'mp-mixin'
+import {injectStaff} from 'mp-mixin'
 injectStaff(anyObject);
 ```
 
-### 4. Type declaration
+### 4. 类型声明
 
 1. [type.d.ts](https://github.com/theajack/mp-mixin/blob/master/src/type.d.ts)
 2. [index.d.ts](https://github.com/theajack/mp-mixin/blob/master/src/mp-mixin.min.d.ts)
