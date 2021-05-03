@@ -14,7 +14,7 @@ module.exports = () => {
         output: {
             path: path.resolve('./', 'npm'),
             filename: 'mp-mixin.min.js',
-            library: 'TEvent',
+            library: 'mpmixin',
             libraryTarget: 'umd',
             libraryExport: 'default',
             globalObject: 'this',

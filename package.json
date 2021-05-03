@@ -1,6 +1,6 @@
 {
     "name": "mp-mixin",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "微信小程序 mixin 和 store 方案",
     "scripts": {
         "dev": "webpack-dev-server --open --config webpack-config/dev.js",

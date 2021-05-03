@@ -1,8 +1,8 @@
 /*
  * @Author: tackchen
  * @Date: 2021-05-01 20:29:47
- * @LastEditors: tackchen
- * @LastEditTime: 2021-05-02 14:55:50
+ * @LastEditors: theajack
+ * @LastEditTime: 2021-05-04 00:58:26
  * @FilePath: \mp-mixin\src\store.ts
  * @Description: Coding something
  */
@@ -35,7 +35,7 @@ export function _createStore (state: IJson): IStore {
                 eventReady({[setDataAttr]: value});
             } else {
                 if (typeof data[attr] === 'undefined') {
-                    throw new Error(`错误的 setData 属性:${setDataAttr}`);
+                    throw new Error(`Error setData:${setDataAttr}`);
                 }
                 data = data[attr];
             }
@@ -106,8 +106,8 @@ export function initStoreHacker (options: IPageOption) {
 
 function handleStore (options: IPageOption, store: IStore) {
     if (!store) return;
-    const setDataHacker = function (context: IContext) {
-        store.__._injectContext(context);
+    const setDataHacker = function (this: IContext) {
+        store.__._injectContext(this);
     };
     if (!options.onLoad) { // 劫持onLoad来注入setData
         options.onLoad = setDataHacker;
@@ -116,15 +116,13 @@ function handleStore (options: IPageOption, store: IStore) {
         const mixin = options.__mixin;
         if (!mixin._onLoadList) {
             mixin._onLoadList = [];
-            options.onLoad = function (...args: any[]) {
-                mixin._onLoadList.forEach((fn: Function) => fn(this));
+            options.onLoad = function (this: IContext, ...args: any[]) {
+                mixin._onLoadList.forEach((fn: (this: IContext) => void) => fn.call(this));
                 nativeOnLoad.apply(this, args);
             };
         }
   
-        mixin._onLoadList.push(function (context: IContext) {
-            setDataHacker(context);
-        });
+        mixin._onLoadList.push(setDataHacker);
     }
 }
 

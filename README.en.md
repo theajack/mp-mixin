@@ -148,6 +148,16 @@ import {injectStaff} from'mp-mixin'
 injectStaff(anyObject);
 ```
 
+Get mp-mixin version
+
+```js
+wx.mpMixinVersion
+
+// or
+
+import {version} from 'mp-mixin';
+```
+
 ### 4. Type declaration
 
 1. [type.d.ts](https://github.com/theajack/mp-mixin/blob/master/src/type.d.ts)
