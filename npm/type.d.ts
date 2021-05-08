@@ -1,8 +1,8 @@
 /*
  * @Author: tackchen
  * @Date: 2021-05-02 11:11:35
- * @LastEditors: tackchen
- * @LastEditTime: 2021-05-02 14:47:31
+ * @LastEditors: theajack
+ * @LastEditTime: 2021-05-08 21:39:38
  * @FilePath: \mp-mixin\src\type.d.ts
  * @Description: Coding something
  */
@@ -24,13 +24,6 @@ export interface IEventReady<T> {
 export interface IJson<T = any> {
     [prop: string]: T;
 }
-
-declare global {
-    let Page: (options: IPageOption) => void;
-    const wx: object;
-    const qq: object;
-}
-
 export declare interface IPageOption extends IJson{
     data: IJson;
     mixin?: ILocalMixin;

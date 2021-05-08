@@ -2,12 +2,13 @@
  * @Author: tackchen
  * @Date: 2021-05-02 11:11:41
  * @LastEditors: theajack
- * @LastEditTime: 2021-05-04 00:55:09
+ * @LastEditTime: 2021-05-08 21:40:22
  * @FilePath: \mp-mixin\src\index.d.ts
  * @Description: Coding something
  */
 
-import {IGlobalMixinFn, ICreateStoreFn, IInitGlobalStoreFn} from './type';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import {IGlobalMixinFn, ICreateStoreFn, IInitGlobalStoreFn, ILocalMixin} from './type';
 
 interface IInjectStaff {
     (target: object & {
@@ -23,10 +24,29 @@ export const createStore: ICreateStoreFn;
 export const initGlobalStore: IInitGlobalStoreFn;
 export const version: string;
 
-export default {
-    globalMixin,
-    createStore,
-    initGlobalStore,
-    version,
-    injectStaff,
-};
+interface IMpMixin {
+    globalMixin: IGlobalMixinFn;
+    createStore: ICreateStoreFn;
+    initGlobalStore: IInitGlobalStoreFn;
+    version: string;
+    injectStaff: IInjectStaff;
+}
+
+declare global {
+    namespace WechatMiniprogram {
+        interface Wx {
+            mixin: IGlobalMixinFn;
+            createStore: ICreateStoreFn;
+            initGlobalStore: IInitGlobalStoreFn;
+        }
+    }
+    namespace WechatMiniprogram.Page {
+        interface Data<D extends DataOption> {
+            mixin?: ILocalMixin;
+        }
+    }
+}
+
+declare const mpMixin: IMpMixin;
+
+export default mpMixin;
