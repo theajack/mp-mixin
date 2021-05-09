@@ -161,4 +161,4 @@ import {version} from 'mp-mixin';
 ### 4. Type declaration
 
 1. [type.d.ts](https://github.com/theajack/mp-mixin/blob/master/src/type.d.ts)
-2. [index.d.ts](https://github.com/theajack/mp-mixin/blob/master/src/mp-mixin.min.d.ts)
+2. [index.d.ts](https://github.com/theajack/mp-mixin/blob/master/src/index.d.ts)

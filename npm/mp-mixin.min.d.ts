@@ -2,7 +2,7 @@
  * @Author: tackchen
  * @Date: 2021-05-02 11:11:41
  * @LastEditors: theajack
- * @LastEditTime: 2021-05-09 09:17:22
+ * @LastEditTime: 2021-05-09 09:28:09
  * @FilePath: \mp-mixin\src\index.d.ts
  * @Description: Coding something
  */
@@ -32,9 +32,6 @@ interface IMpMixin {
     injectStaff: IInjectStaff;
 }
 
-type Optional<F> = F extends (arg: infer P) => infer R ? (arg?: P) => R : F
-type OptionalInterface<T> = { [K in keyof T]: Optional<T[K]> }
-
 declare global {
     namespace WechatMiniprogram {
         
@@ -45,10 +42,9 @@ declare global {
         }
     }
     namespace WechatMiniprogram.Page {
-        interface ILifetime {}
         
         interface Data<D> {
-            mixin?: ILocalMixin & OptionalInterface<WechatMiniprogram.Page.ILifetime>;
+            mixin?: ILocalMixin;
         }
     }
 }
