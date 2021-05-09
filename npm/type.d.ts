@@ -2,7 +2,7 @@
  * @Author: tackchen
  * @Date: 2021-05-02 11:11:35
  * @LastEditors: theajack
- * @LastEditTime: 2021-05-08 21:39:38
+ * @LastEditTime: 2021-05-09 09:20:15
  * @FilePath: \mp-mixin\src\type.d.ts
  * @Description: Coding something
  */
@@ -15,7 +15,6 @@ export interface IStore {
         _hitState (setDataAttr: string, value: any, ignoreList: string[]): boolean;
     }
 }
-
 export interface IEventReady<T> {
     onEventReady(fn: (...args: T[])=>void, ...args: T[]): void;
     eventReady(...args: T[]): void;
@@ -28,13 +27,7 @@ export declare interface IPageOption extends IJson{
     data: IJson;
     mixin?: ILocalMixin;
 }
-
-export type TLifeTime = 'onLoad' | 'onShow' | 'onReady' | 'onHide' | 'onShow' | 'onUnload' | 'onPullDownRefresh' |
-    'onReachBottom' | 'onShareAppMessage' | 'onShareTimeline' | 'onAddToFavorites' | 'onPageScroll' | 'onResize' | 'onTabItemTap';
-
 type TBaseMixin = {
-    [prop in TLifeTime]?: Function;
-} & {
     data?: IJson;
     methods?: IJson<Function>;
 };

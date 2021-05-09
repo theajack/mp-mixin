@@ -2,7 +2,7 @@
  * @Author: tackchen
  * @Date: 2021-05-02 11:11:41
  * @LastEditors: theajack
- * @LastEditTime: 2021-05-08 21:40:22
+ * @LastEditTime: 2021-05-09 09:28:09
  * @FilePath: \mp-mixin\src\index.d.ts
  * @Description: Coding something
  */
@@ -34,6 +34,7 @@ interface IMpMixin {
 
 declare global {
     namespace WechatMiniprogram {
+        
         interface Wx {
             mixin: IGlobalMixinFn;
             createStore: ICreateStoreFn;
@@ -41,7 +42,8 @@ declare global {
         }
     }
     namespace WechatMiniprogram.Page {
-        interface Data<D extends DataOption> {
+        
+        interface Data<D> {
             mixin?: ILocalMixin;
         }
     }
