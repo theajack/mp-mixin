@@ -1,8 +1,8 @@
 /*
  * @Author: tackchen
  * @Date: 2021-05-01 19:49:28
- * @LastEditors: tackchen
- * @LastEditTime: 2021-05-02 14:18:17
+ * @LastEditors: theajack
+ * @LastEditTime: 2021-05-12 00:53:19
  * @FilePath: \mp-mixin\src\util.ts
  * @Description: Coding something
  */
@@ -70,6 +70,8 @@ export function creatEventReady<T = any> (): IEventReady<T> {
             }
             fn(...args);
         }
+
+        return fn;
     }
      
     function eventReady (...args: T[]) {
@@ -79,8 +81,16 @@ export function creatEventReady<T = any> (): IEventReady<T> {
         });
     }
 
+    function removeListener (listener: Function) {
+        const result = queue.find(item => item.fn === listener);
+        if (result) {
+            queue.splice(queue.indexOf(result), 1);
+        }
+    }
+
     return {
         onEventReady,
-        eventReady
+        eventReady,
+        removeListener,
     };
 }

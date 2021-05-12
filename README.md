@@ -37,7 +37,7 @@
 ## 1. 特性
 
 1. 支持 mixin data、methods、生命周期及Page事件
-2. 支持不同Page 使用 store 共用状态
+2. 支持不同 Page 和 Component之间 使用 store 共用状态
 3. 支持全局 mixin 和 store
 4. typescript编写
 5. 支持QQ小程序 以及其他api和微信小程序相似的小程序
@@ -68,19 +68,35 @@ cdn地址: [https://cdn.jsdelivr.net/npm/mp-mixin/mp-mixin.min.js](https://cdn.j
 mixin 是一个对象，数据结构如下
 
 ```js
+const store = wx.creteStore({});
+
 const mixin = {
     data: {}, // 可选
     methods: {}, // 可选
-    store: wx.creteStore({}), // 可选 当全局注入时，store可以是一个json， 否则 必须是 store对象
-    // 以下为Page生命周期或事件
+    store: store, // 可选 当全局注入时，store可以是一个json， 否则 必须是 store对象
+    // 以下为Page独有的生命周期或事件
+    // 详情请参考小程序文档 
     onLoad(){
 
     },
     onShareAppMessage(){
 
+    },
+
+    // 以下为Component独有的生命周期或事件
+    lifetimes:{
+        // 详情请参考小程序文档 
+    },
+    pageLifetimes:{
+        // 详情请参考小程序文档
     }
 }
 ```
+
+[微信小程序Page文档](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html)
+
+[微信小程序Component文档](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Component.html)
+
 
 #### 2.3.2 全局mixin
 
@@ -97,6 +113,17 @@ wx.mixin(mixin); // mixin 对象 见 2.3.1
 
 ```js
 Page({
+    mixin: mixin, // mixin 对象 见 2.3.1
+    // ...
+})
+```
+
+#### 2.3.4 Component mixin
+ 
+也可以在Component构造中按需引入 mixin
+
+```js
+Component({
     mixin: mixin, // mixin 对象 见 2.3.1
     // ...
 })

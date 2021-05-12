@@ -37,7 +37,7 @@
 ## 1. Features
 
 1. Support mixin data, methods, life cycle and Page events
-2. Support different pages to use store sharing status
+2. Support different Pages and Components to use store sharing status
 3. Support global mixin and store
 4. Typescript writing
 5. Support QQ applet and other applets with similar api and WeChat applet
@@ -68,19 +68,34 @@ cdn address: [https://cdn.jsdelivr.net/npm/mp-mixin/mp-mixin.min.js](https://cdn
 Mixin is an object, the data structure is as follows
 
 ```js
+const store = wx.creteStore({});
+
 const mixin = {
-    data: {}, // optional
-    methods: {}, // optional
-    store: wx.creteStore({}), // optional When injected globally, store can be a json, otherwise it must be a store object
-    // The following is the Page life cycle or event
-    onLoad(){
+     data: {}, // optional
+     methods: {}, // optional
+     store: store, // optional When injecting globally, store can be a json, otherwise it must be a store object
+     // The following is the unique life cycle or event of Page
+     // Please refer to the applet documentation for details
+     onLoad(){
 
-    },
-    onShareAppMessage(){
+     },
+     onShareAppMessage(){
 
-    }
+     },
+
+     // The following is the unique life cycle or event of Component
+     lifetimes:{
+         // Please refer to the applet documentation for details
+     },
+     pageLifetimes:{
+         // Please refer to the applet documentation for details
+     }
 }
 ```
+
+[WeChat Mini Program Page Document](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html)
+
+[WeChat Mini Program Component Document](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Component.html)
 
 #### 2.3.2 Global mixin
 
@@ -97,6 +112,17 @@ You can also introduce mixin as needed in the Page structure
 
 ```js
 Page({
+    mixin: mixin, // mixin object see 2.3.1
+    // ...
+})
+```
+
+#### 2.3.4 Component mixin
+ 
+You can also introduce mixin as needed in the Component structure
+
+```js
+Component({
     mixin: mixin, // mixin object see 2.3.1
     // ...
 })

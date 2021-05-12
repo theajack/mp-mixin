@@ -2,18 +2,20 @@
  * @Author: tackchen
  * @Date: 2021-05-01 18:27:03
  * @LastEditors: theajack
- * @LastEditTime: 2021-05-08 21:54:29
+ * @LastEditTime: 2021-05-11 23:41:24
  * @FilePath: \mp-mixin\src\index.ts
  * @Description: Coding something
  */
 
-import {_globalMixin, mixinCurrentPage, _mixinGlobalObject} from './mixin';
+import {TARGET_TYPE} from './constant';
+import {_globalMixin, mixinCurrent, _mixinGlobal} from './mixin';
 import {_createStore, _initGlobalStore, initStoreHacker} from './store';
-import {IPageOption, IGlobalMixinFn, ICreateStoreFn, IInitGlobalStoreFn} from './type';
+import {IPageOption, IGlobalMixinFn, ICreateStoreFn, IInitGlobalStoreFn, IComponentOption, IJson} from './type';
 import _version from './version';
 
 declare global {
     let Page: (options: IPageOption) => void;
+    let Component: (options: IComponentOption) => void;
     const wx: object;
     const qq: object;
 }
@@ -22,21 +24,35 @@ declare global {
 function hackPageBuilder () {
     const nativePage = Page;
     Page = function (options: IPageOption) {
-        if (!options.data) { options.data = {}; }
-        if (!options.__mixin) {options.__mixin = {};}
-    
-        options = _mixinGlobalObject(options);
-    
-        options = mixinCurrentPage(options);
-
-        initStoreHacker(options);
-
-        nativePage(options);
+        nativePage(mixinMainProcess(options));
     };
+}
+
+function hackComponentBuilder () {
+    const nativeComponent = Component;
+    Component = function (options: IComponentOption) {
+        nativeComponent(mixinMainProcess(options, TARGET_TYPE.COMPONENT));
+    };
+}
+
+export function mixinMainProcess (
+    options: IPageOption | IComponentOption,
+    type: TARGET_TYPE = TARGET_TYPE.PAGE
+) {
+    if (!options.data) { options.data = {}; }
+    const storeTool: IJson = {};
+    options = _mixinGlobal({options, type, storeTool});
+
+    options = mixinCurrent({options, type, storeTool});
+
+    initStoreHacker({options, type, storeTool});
+
+    return options;
 }
 
 function main () {
     hackPageBuilder();
+    hackComponentBuilder();
   
     if (typeof wx !== 'undefined') {
         injectStaff(wx);
