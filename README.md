@@ -30,7 +30,7 @@
 
 <h3>🚀 微信小程序 mixin 和 store 方案</h3>
 
-**[English](https://github.com/theajack/mp-mixin/blob/master/README.en.md) | [更新日志](https://github.com/theajack/mp-mixin/blob/master/helper/version.md) | [反馈错误/缺漏](https://github.com/theajack/mp-mixin/issues/new) | [Gitee](https://gitee.com/theajack/mp-mixin)**
+**[English](https://github.com/theajack/mp-mixin/blob/master/README.en.md) | [使用demo](https://github.com/theajack/ts-miniapp) | [更新日志](https://github.com/theajack/mp-mixin/blob/master/helper/version.md) | [反馈错误/缺漏](https://github.com/theajack/mp-mixin/issues/new) | [Gitee](https://gitee.com/theajack/mp-mixin)**
 
 ---
 

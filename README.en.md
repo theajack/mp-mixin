@@ -30,7 +30,7 @@
 
 <h3>🚀 WeChat Mini Program mixin and store solution</h3>
 
-**[中文](https://github.com/theajack/mp-mixin/blob/master/README.md) | [Update Log](https://github.com/theajack/mp-mixin/blob/master/helper/version.md) | [Feedback bug/missing](https://github.com/theajack/mp-mixin/issues/new) | [Gitee](https://gitee.com/theajack/mp-mixin)**
+**[中文](https://github.com/theajack/mp-mixin/blob/master/README.md) | [Demo](https://github.com/theajack/ts-miniapp) | [Update Log](https://github.com/theajack/mp-mixin/blob/master/helper/version.md) | [Feedback bug/missing](https://github.com/theajack/mp-mixin/issues/new) | [Gitee](https://gitee.com/theajack/mp-mixin)**
 
 ---
 
