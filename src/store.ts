@@ -2,7 +2,7 @@
  * @Author: tackchen
  * @Date: 2021-05-01 20:29:47
  * @LastEditors: tackchen
- * @LastEditTime: 2021-05-12 13:57:57
+ * @LastEditTime: 2021-05-12 14:34:17
  * @FilePath: \mp-mixin\src\store.ts
  * @Description: 状态共享
  */
@@ -55,7 +55,6 @@ export function _createStore (state: IJson): IStore {
                         removeListener(listener);
                     } else if (currentContext !== newContext) {
                         // ! 仅对其他页面或组件进行出发 setData
-                        console.log('onEventReady', data);
                         storeTool._nativeSetData.call(currentContext, data);
                     }
                 });
@@ -85,7 +84,6 @@ function hackSetData (context: IContext, storeId: number, storeTool: IJson) {
         storeTool._nativeSetData = nativeSetData;
         context.setData = (data, callback) => {
             context._setDataList.forEach((fn: Function) => fn(data));
-            console.log('nativeSetData.call(context, data, callback);', data);
             return nativeSetData.call(context, data, callback);
         };
     }
